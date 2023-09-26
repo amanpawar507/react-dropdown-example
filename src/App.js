@@ -25,28 +25,34 @@ const countries = [
   // Add more countries and cities as needed
 ];
 
-function CountryCityDropdown(){
-    const [selectedCountry, setSelectedCountry] = useState("");
-    const[cities, setCities] = useState([]);
+function CountryCityDropdown() {
+  const [selectedCountry, setSelectedCountry] = useState("");
+  const [cities, setCities] = useState([]);
+  const [selectedCity, setSelectedCity] = useState("");
 
-    const handleCountryChange = (event) => {
-      const selectedCountry = event.target.value;
-      setSelectedCountry(selectedCountry);
-      loadCities(selectedCountry); 
-    };
+  const handleCountryChange = (event) => {
+    const selectedCountry = event.target.value;
+    setSelectedCountry(selectedCountry);
+    loadCities(selectedCountry);
+  };
 
-    const loadCities = (selectedCountry) => {
-      const country = countries.find((c) => c.country === selectedCountry);
-  
-      if (country) {
-        setCities(country.cities);
-      } else {
-        setCities([]);
-      }
-    };
+  const loadCities = (selectedCountry) => {
+    const country = countries.find((c) => c.country === selectedCountry);
 
-    return(
-      <div>
+    if (country) {
+      setCities(country.cities);
+    } else {
+      setCities([]);
+    }
+  };
+
+  const handleCityChange = (event) => {
+    const selectedCity = event.target.value;
+    setSelectedCity(selectedCity);
+  };
+
+  return (
+    <div>
       <label>Select a country:</label>
       <select value={selectedCountry} onChange={handleCountryChange}>
         <option value="">Select a country</option>
@@ -60,7 +66,7 @@ function CountryCityDropdown(){
       {selectedCountry && (
         <div>
           <label>Select a city:</label>
-          <select>
+          <select value={selectedCity} onChange={handleCityChange}>
             <option value="">Select a city</option>
             {cities.map((city) => (
               <option key={city} value={city}>
@@ -70,9 +76,15 @@ function CountryCityDropdown(){
           </select>
         </div>
       )}
-    </div>
-    );
-};
 
+      {selectedCountry && selectedCity && (
+        <div>
+          <p>Selected Country is: {selectedCountry}</p>
+          <p>Selected City is: {selectedCity}</p>
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default CountryCityDropdown;
